@@ -2,42 +2,61 @@
 
 import java.io.*;
 import java.util.*;
+import java.util.Random;
 
-class floating {
+public class floating {
 
 	// The main function to that sorts arr[] of
 	// size n using Radix Sort
-	static void radixsort(float arr[], int n)
+	static int radixsort(float arr[], int n, int count_operator)
 	{
+    count_operator += 3;
+
     // const number to time all element with it
     float num = (float) Math.pow(10,7);
+    count_operator += 1;
 
 		// Find the maximum number to know number of digits
 		float m = getMax(arr, n);
+    count_operator += 1;
 
     // Change all float value inside of the array to whole number
-    for (int i = 0; i < n; i++)
+    count_operator += 1;
+    for (int i = 0; i < n; i++){
+      count_operator += 3;
       arr[i] = arr[i] * num;
-    // System.out.println(Arrays.toString(arr));
-
+      count_operator += 2;
+    }
+    print(arr,n);
 
     // Max value will change to int number
-    int c = (int) m * (int) num;
+    long c = (long) m * (long) num;
+    count_operator += 2;
+    System.out.println("value of c: " + c);
 
 		// Do counting sort for every digit. Note that
 		// instead of passing digit number, exp is passed.
 		// exp is 10^i where i is current digit number
-		for (int exp = 1; c / exp > 0; exp *= 10)
-			countSort(arr, n, exp);
+    count_operator += 1;
+		for (int exp = 1; c / exp > 0; exp *= 10){
+      count_operator += 4;
+      count_operator = countSort(arr, n, exp, count_operator);
+    }
 
     // change back all sorted number into float number
-    for (int i = 0; i < n; i++)
+    count_operator += 1;
+    for (int i = 0; i < n; i++){
+      count_operator += 3;
       arr[i] = arr[i] / num;
+      count_operator += 2;
+    }
+
+    return count_operator;
 	}
 
 	// A function to do counting sort of arr[] according to
 	// the digit represented by exp.
-	static void countSort(float arr[], int n, int exp)
+	static int countSort(float arr[], int n, int exp, int count_operator)
 	{
     // System.out.println("We are in the countSort function: \n");
 		float output[] = new float[n]; // output array
@@ -45,33 +64,46 @@ class floating {
 		int count[] = new int[10];
     // store value 0 to all indexes of count array
 		Arrays.fill(count, 0);
-    // System.out.println(Arrays.toString(count));
+    count_operator += 4;
 
 		// Store count of occurrences in count[]
-		for (i = 0; i < n; i++)
-			count[((int)arr[i] / exp) % 10]++;
-    // System.out.println(Arrays.toString(count));
+    count_operator += 1;
+		for (i = 0; i < n; i++){
+      count_operator += 3;
+      count[((int)arr[i] / exp) % 10]++;
+      count_operator += 5;
+    }
 
 		// Change count[i] so that count[i] now contains
 		// actual position of this digit in output[]
-		for (i = 1; i < 10; i++)
+    count_operator += 1;
+		for (i = 1; i < 10; i++){
+      count_operator += 3;
 			count[i] += count[i - 1];
-    // System.out.println(Arrays.toString(count));
+      count_operator += 3;
+    }
 
 		// Build the output array
+    count_operator += 1;
 		for (i = n - 1; i >= 0; i--) {
+      count_operator += 3;
 			output[count[((int)arr[i] / exp) % 10] - 1] = arr[i];
+      count_operator += 6;
 			count[((int)arr[i] / exp) % 10]--;
+      count_operator += 5;
 		}
-    // System.out.println(Arrays.toString(count));
-    // System.out.println(Arrays.toString(output));
 
 		// Copy the output array to arr[], so that arr[] now
 		// contains sorted numbers according to current digit
-		for (i = 0; i < n; i++)
+    count_operator += 1;
+		for (i = 0; i < n; i++){
+      count_operator += 3;
 			arr[i] = output[i];
+      count_operator += 1;
+    }
+
+    return count_operator;
 	}
-    // System.out.println(Arrays.toString(arr));
 
 	// A utility function to print an array
 	static void print(float arr[], int n)
@@ -94,13 +126,62 @@ class floating {
 	// Main driver method
 	public static void main(String[] args)
 	{
-    float[] arr = {9.1f, 3.387921f, 123.198456f, 12.945678f, 0.521345f, 0.876543f, 56.234567f, 0.612345f, 0.098765f, 0.456789f};
-		int n = arr.length;
-		print(arr, n);
+  //   float[] arr = {9.1f, 3.387921f, 123.198456f, 12.945678f, 0.521345f, 0.876543f, 56.234567f, 0.612345f, 0.098765f, 0.456789f};
+		// int n = arr.length;
+    // count_operator += 1;
+		// print(arr, n);
+		//
+		// // Function Call
+		// radixsort(arr, n);
+		// print(arr, n);
 
-		// Function Call
-		radixsort(arr, n);
-		print(arr, n);
+    int n;
+    int count_operator = 0; // Operator counter
+    float [] array; // Define an array
+    Random rand = new Random(); // Define random function
+
+    int max_array = 5;
+    int [] dataset = new int[max_array];
+
+    System.out.println("******************************************************************************************");
+    array = new float[1];
+    n = array.length;
+    array[0] = rand.nextFloat() * 999;
+    System.out.println("Array: " + array[0] + " \n");
+    dataset [0] = radixsort(array, n, count_operator);
+    System.out.println("Result of the radix sort: ");
+    print(array, n);
+    System.out.println("******************************************************************************************");
+
+    for (int i = 2; i <= max_array; i = i + 1){
+        array = new float[i];
+        System.out.println("******************************************************************************************");
+        System.out.println("Create an array with the size of " + i + " : ");
+        for (int k = 0; k < array.length; k++) {
+            array[k] = rand.nextFloat() * 999; // Input a random number between 1 to 99999
+        }
+        for (int j = 0; j < array.length; j++) {
+            System.out.print(array[j] + " "); // Print all list of random number
+        }
+        System.out.println(" \n");
+
+        // Function call to the radixSort
+        n = array.length; // Get the length of the array
+        count_operator = 0; // Set the operator counter to 0
+        dataset [i - 1] = radixsort(array, n, count_operator); 
+        System.out.println("Result of the radix sort: ");
+        print(array, n);
+        System.out.println("******************************************************************************************");
+    }
+
+    // print the dataset
+    int row;
+    System.out.println("<------------------->");
+    for (int i = 0; i < dataset.length; i++){
+      row = i + 1;
+      System.out.println(row + " || " + dataset[i]);
+    }
+    System.out.println("<------------------->");
 	}
 }
 
