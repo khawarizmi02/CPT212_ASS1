@@ -28,6 +28,7 @@ public class floating {
     String temp_value;
     BigDecimal decimal_arr;
     BigDecimal decimal_num = new BigDecimal(string_num);
+    count_operator += 1;
 
     // Change all float value inside of the array to whole number
     count_operator += 1;
@@ -36,13 +37,14 @@ public class floating {
 
       temp_value = Float.toString(arr[i]);
       decimal_arr = new BigDecimal(temp_value);
+      count_operator += 4;
 
       arr_long[i] = decimal_arr.multiply(decimal_num).longValue();
-      count_operator += 2;
+      count_operator += 4;
     }
 
 		// Find the maximum number to know number of digits
-		long m = getMax(arr_long, n);
+		long m = getMax(arr_long, n, count_operator);
     count_operator += 2;
 
     // Max value will change to long number
@@ -66,6 +68,7 @@ public class floating {
 
       temp_value = Float.toString(arr_long[i]);
       decimal_arr = new BigDecimal(temp_value);
+      count_operator += 5;
 
       arr[i] = decimal_arr.divide(decimal_num).floatValue();
       count_operator += 2;
@@ -139,12 +142,17 @@ public class floating {
 	}
 
 	// A utility function to get maximum value in arr_long[]
-	static long getMax(long arr_long[], int n)
+	static long getMax(long arr_long[], int n, int count_operator)
 	{
 		long mx = arr_long[0];
-		for (int i = 1; i < n; i++)
-			if (arr_long[i] > mx)
+    count_operator =+ 3;
+		for (int i = 1; i < n; i++){
+      count_operator += 3;
+			if (arr_long[i] > mx){
+        count_operator += 3;
 				mx = arr_long[i];
+      }
+    }
 		return mx;
 	}
 }
