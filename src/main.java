@@ -65,8 +65,8 @@ class main {
     System.out.println("******************************************************************************************");
     array = new float[1];
     n = array.length;
-    array[0] = rand.nextFloat() * 999;
-    System.out.println("Array: " + array[0] + " \n");
+    array[0] = rand.nextFloat() * 9999;
+    System.out.println("Array: " + array[0]);
     dataset_float [0] = radix_float.radixsort(array, n, count_operator);
     System.out.println("Result of the radix sort: ");
     System.out.println("Array: " + array[0] + " \n");
@@ -78,6 +78,7 @@ class main {
             array[k] = rand.nextFloat() * 999; // Input a random number between 1 to 99999
         }
         radix_float.print(array, i);
+        System.out.println();
 
         // Function call to the radixSort
         n = array.length; // Get the length of the array
@@ -85,6 +86,7 @@ class main {
         dataset_float [i - 1] = radix_float.radixsort(array, n, count_operator); 
         System.out.println("Result of the radix sort: ");
         radix_float.print(array, i);
+        System.out.println();
     }
     System.out.println("******************************************************************************************");
 
@@ -108,7 +110,7 @@ class main {
     array = new int[1];
     n = array.length;
     array[0] = rand.nextInt(99999) + 1;
-    System.out.println("Array: " + array[0] + " \n");
+    System.out.println("Array: " + array[0]);
     dataset_radix [0] = radix.radixsort(array, n, count_operator);
     System.out.println("Array: " + array[0] + " \n");
 
@@ -121,6 +123,7 @@ class main {
         for (int j = 0; j < array.length; j++) {
             System.out.print(array[j] + " "); // Print all list of random number
         }
+        System.out.println();
 
         // Function call to the radixSort
         n = array.length; // Get the length of the array

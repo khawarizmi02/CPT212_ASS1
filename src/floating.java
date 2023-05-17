@@ -3,6 +3,8 @@
 import java.io.*;
 import java.util.*;
 import java.util.Random;
+import java.math.BigDecimal;
+import java.util.Arrays;
 
 public class floating {
 
@@ -12,52 +14,76 @@ public class floating {
 	{
     count_operator += 3;
 
+    // Create a temporary long datatype array
+    long [] arr_long = new long [n];
+    count_operator += 1;
+
     // const number to time all element with it
     float num = (float) Math.pow(10,7);
     count_operator += 1;
 
-		// Find the maximum number to know number of digits
-		float m = getMax(arr, n);
+    String string_num = Float.toString(num);
     count_operator += 1;
+
+    String temp_value;
+    BigDecimal decimal_arr;
+    BigDecimal decimal_num = new BigDecimal(string_num);
 
     // Change all float value inside of the array to whole number
     count_operator += 1;
     for (int i = 0; i < n; i++){
       count_operator += 3;
-      arr[i] = arr[i] * num;
+
+      temp_value = Float.toString(arr[i]);
+      decimal_arr = new BigDecimal(temp_value);
+
+      arr_long[i] = decimal_arr.multiply(decimal_num).longValue();
       count_operator += 2;
     }
 
-    // Max value will change to int number
-    long c = (long) m * (long) num;
+		// Find the maximum number to know number of digits
+		long m = getMax(arr_long, n);
     count_operator += 2;
+
+    // Max value will change to long number
+    // long c = decimal_num.multiply(decimal_max).longValue();
+    // System.out.println("value of long c: " + c);
+    // count_operator += 2;
 
 		// Do counting sort for every digit. Note that
 		// instead of passing digit number, exp is passed.
 		// exp is 10^i where i is current digit number
     count_operator += 1;
-		for (int exp = 1; c / exp > 0; exp *= 10){
+		for (long exp = 1; m / exp > 0; exp *= 10){
       count_operator += 4;
-      count_operator = countSort(arr, n, exp, count_operator);
+      count_operator = countSort(arr_long, n, exp, count_operator);
     }
 
     // change back all sorted number into float number
     count_operator += 1;
     for (int i = 0; i < n; i++){
       count_operator += 3;
-      arr[i] = arr[i] / num;
+
+      temp_value = Float.toString(arr_long[i]);
+      decimal_arr = new BigDecimal(temp_value);
+
+      arr[i] = decimal_arr.divide(decimal_num).floatValue();
       count_operator += 2;
     }
+
+    // Print out the result of the operator counter
+    System.out.println("Operator counter: " + count_operator );
+    System.out.println();
 
     return count_operator;
 	}
 
 	// A function to do counting sort of arr[] according to
 	// the digit represented by exp.
-	static int countSort(float arr[], int n, int exp, int count_operator)
+	static int countSort(long arr_long[], int n, long exp, int count_operator)
 	{
     // System.out.println("We are in the countSort function: \n");
-		float output[] = new float[n]; // output array
+		long output[] = new long[n]; // output array
 		int i;
 		int count[] = new int[10];
     // store value 0 to all indexes of count array
@@ -68,7 +94,8 @@ public class floating {
     count_operator += 1;
 		for (i = 0; i < n; i++){
       count_operator += 3;
-      count[((int)arr[i] / exp) % 10]++;
+      // count[((long)arr_long[i] / exp) % 10]++;
+      count[(int) Math.floor((long)arr_long[i] / exp) % 10]++;
       count_operator += 5;
     }
 
@@ -85,9 +112,9 @@ public class floating {
     count_operator += 1;
 		for (i = n - 1; i >= 0; i--) {
       count_operator += 3;
-			output[count[((int)arr[i] / exp) % 10] - 1] = arr[i];
+			output[count[(int) Math.floor((long)arr_long[i] / exp) % 10] - 1] = arr_long[i];
       count_operator += 6;
-			count[((int)arr[i] / exp) % 10]--;
+			count[(int) Math.floor((long)arr_long[i] / exp) % 10]--;
       count_operator += 5;
 		}
 
@@ -96,7 +123,7 @@ public class floating {
     count_operator += 1;
 		for (i = 0; i < n; i++){
       count_operator += 3;
-			arr[i] = output[i];
+			arr_long[i] = output[i];
       count_operator += 1;
     }
 
@@ -111,13 +138,13 @@ public class floating {
       System.out.println();
 	}
 
-	// A utility function to get maximum value in arr[]
-	static float getMax(float arr[], int n)
+	// A utility function to get maximum value in arr_long[]
+	static long getMax(long arr_long[], int n)
 	{
-		float mx = arr[0];
+		long mx = arr_long[0];
 		for (int i = 1; i < n; i++)
-			if (arr[i] > mx)
-				mx = arr[i];
+			if (arr_long[i] > mx)
+				mx = arr_long[i];
 		return mx;
 	}
 }
